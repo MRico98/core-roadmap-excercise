@@ -1,0 +1,6 @@
+@TeamSpace.Middleware_HostAddress = http://localhost:5128
+
+GET {{TeamSpace.Middleware_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
