@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamSpace.Middleware", "TeamSpace.Middleware\TeamSpace.Middleware.csproj", "{514C6740-DB91-4A0F-9791-4535CD7DC68D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamSpace.Middleware", "TeamSpace.Middleware\TeamSpace.Middleware.csproj", "{514C6740-DB91-4A0F-9791-4535CD7DC68D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamSpace.Application", "TeamSpace.Application\TeamSpace.Application.csproj", "{66FE6C75-18BC-42A3-8ABF-F1CE16E26D4C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamSpace.Domain", "TeamSpace.Domain\TeamSpace.Domain.csproj", "{4373E04F-7200-4D93-A302-DB7DB061D3E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamSpace.Infraestructure", "TeamSpace.Infraestructure\TeamSpace.Infraestructure.csproj", "{C39C0A9D-64C2-4307-9612-BBB9739A46BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{514C6740-DB91-4A0F-9791-4535CD7DC68D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{514C6740-DB91-4A0F-9791-4535CD7DC68D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{514C6740-DB91-4A0F-9791-4535CD7DC68D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66FE6C75-18BC-42A3-8ABF-F1CE16E26D4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66FE6C75-18BC-42A3-8ABF-F1CE16E26D4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66FE6C75-18BC-42A3-8ABF-F1CE16E26D4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66FE6C75-18BC-42A3-8ABF-F1CE16E26D4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4373E04F-7200-4D93-A302-DB7DB061D3E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4373E04F-7200-4D93-A302-DB7DB061D3E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4373E04F-7200-4D93-A302-DB7DB061D3E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4373E04F-7200-4D93-A302-DB7DB061D3E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C39C0A9D-64C2-4307-9612-BBB9739A46BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C39C0A9D-64C2-4307-9612-BBB9739A46BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C39C0A9D-64C2-4307-9612-BBB9739A46BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C39C0A9D-64C2-4307-9612-BBB9739A46BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
