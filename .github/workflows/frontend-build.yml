@@ -1,0 +1,29 @@
+name: Building UI
+
+on:
+  push:
+    paths:
+      - 'teamspace.frontend/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Building UI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        working-directory: teamspace.frontend
+        run: npm install
+
+      - name: Build
+        working-directory: teamspace.frontend
+        run: npm run build
