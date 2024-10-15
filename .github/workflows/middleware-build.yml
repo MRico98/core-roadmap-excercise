@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'TeamSpace.Middleware/**'
+  workflow_dispatch:
 
 jobs:
   build:
