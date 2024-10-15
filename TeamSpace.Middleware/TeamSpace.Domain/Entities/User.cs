@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using TeamSpace.Domain.Entities.Base;
 
-namespace TeamSpace.Domain.Models;
+namespace TeamSpace.Domain.Entities;
 
-public partial class User
+public partial class User : BaseEntity
 {
-    public Guid Id { get; set; }
-
     public string Username { get; set; } = null!;
 
     public string Password { get; set; } = null!;

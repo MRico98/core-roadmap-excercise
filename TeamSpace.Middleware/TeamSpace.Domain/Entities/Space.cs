@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using TeamSpace.Domain.Entities.Base;
 
-namespace TeamSpace.Domain.Models;
+namespace TeamSpace.Domain.Entities;
 
-public partial class Space
+public partial class Space : BaseEntity
 {
-    public Guid Id { get; set; }
-
     public string Name { get; set; } = null!;
 
     public string? Description { get; set; }

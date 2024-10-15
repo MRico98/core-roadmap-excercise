@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-CU12-ubuntu-22.04
@@ -18,7 +17,7 @@ services:
       retries: 10
 
   flyway:
-    image: flyway/flyway:9.10
+    image: flyway/flyway:10
     container_name: flyway
     command: -url="jdbc:sqlserver://sqlserver:1433;databaseName=master;encrypt=false" -user=sa -password=password123! -locations=filesystem:/migrations migrate
     volumes:

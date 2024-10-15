@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using TeamSpace.Domain.Entities;
 
 namespace TeamSpace.Infraestructure.Context;
 
@@ -26,17 +27,20 @@ public partial class TeamSpaceDbContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#pragma warning disable CS1030 // Directiva #warning
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=localhost,1433;Database=TeamSpace;User Id=sa;Password=password123!;Encrypt=False");
+#pragma warning restore CS1030 // Directiva #warning
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Note>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Notes__3214EC077F0B2381");
+            entity.HasKey(e => e.Id).HasName("PK__Notes__3214EC072905E66E");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Content).HasColumnType("text");
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.Title).HasMaxLength(100);
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Notes)
@@ -52,17 +56,19 @@ public partial class TeamSpaceDbContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Roles__3214EC07FADE2666");
+            entity.HasKey(e => e.Id).HasName("PK__Roles__3214EC079224D859");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.Name).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Space>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Spaces__3214EC0776D9232C");
+            entity.HasKey(e => e.Id).HasName("PK__Spaces__3214EC070606833D");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.Name).HasMaxLength(50);
 
@@ -74,9 +80,10 @@ public partial class TeamSpaceDbContext : DbContext
 
         modelBuilder.Entity<SpaceUserRelation>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SpaceUse__3214EC073B278C96");
+            entity.HasKey(e => e.Id).HasName("PK__SpaceUse__3214EC07F151B4D8");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
 
             entity.HasOne(d => d.Space).WithMany(p => p.SpaceUserRelations)
                 .HasForeignKey(d => d.SpaceId)
@@ -91,9 +98,10 @@ public partial class TeamSpaceDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC0717A920A0");
+            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC075F6317FE");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.Password).HasMaxLength(255);
             entity.Property(e => e.Username).HasMaxLength(50);
 

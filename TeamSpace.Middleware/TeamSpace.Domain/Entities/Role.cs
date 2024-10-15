@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using TeamSpace.Domain.Entities.Base;
 
-namespace TeamSpace.Domain.Models;
+namespace TeamSpace.Domain.Entities;
 
-public partial class Role
+public partial class Role : BaseEntity
 {
-    public Guid Id { get; set; }
-
     public string Name { get; set; } = null!;
 
     public virtual ICollection<User> Users { get; set; } = new List<User>();
