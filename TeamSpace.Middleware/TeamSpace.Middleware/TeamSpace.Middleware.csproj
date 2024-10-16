@@ -10,4 +10,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TeamSpace.Application\TeamSpace.Application.csproj" />
+    <ProjectReference Include="..\TeamSpace.Infraestructure\TeamSpace.Infraestructure.csproj" />
+  </ItemGroup>
+
 </Project>
