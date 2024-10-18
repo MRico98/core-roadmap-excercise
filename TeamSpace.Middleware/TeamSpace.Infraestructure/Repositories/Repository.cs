@@ -30,22 +30,29 @@ namespace TeamSpace.Infraestructure.Repositories
 
         public Task DeleteAsync(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Remove(entity);
+            return Task.CompletedTask;
         }
 
         public Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = _dbSet.Find(id);
+            if (entity == null)
+            {
+                throw new KeyNotFoundException("Entity not found");
+            }
+            _dbSet.Remove(entity);
+            return Task.CompletedTask;
         }
 
-        public Task<T> GetByIdAsync(Guid id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
-            return _dbSet.FindAsync(id).AsTask();
+            return await _dbSet.FindAsync(id).AsTask();
         }
 
-        public Task<IReadOnlyList<T>> ListAllAsync()
+        public async Task<IReadOnlyList<T>> ListAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbSet.ToListAsync();
         }
 
         public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
@@ -53,24 +60,39 @@ namespace TeamSpace.Infraestructure.Repositories
             return await _dbSet.Where(spec.Criteria).ToListAsync();
         }
 
-        public Task<int> SaveChangesAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<T> UpdateAsync(Guid id, T entity)
         {
-            throw new NotImplementedException();
+            var currentEntity = _dbSet.Find(id);
+            if (currentEntity == null)
+            {
+                throw new KeyNotFoundException("Entity not found");
+            }
+            _dbContext.Entry(currentEntity).CurrentValues.SetValues(entity);
+            _dbSet.Update(currentEntity);
+            return Task.FromResult(currentEntity);
         }
 
         public Task<T> UpdateAsync(T entity, params object[] keyValues)
         {
-            throw new NotImplementedException();
+            var currentEntity = _dbSet.Find(keyValues);
+            if (currentEntity == null)
+            {
+                throw new KeyNotFoundException("Entity not found");
+            }
+            _dbContext.Entry(currentEntity).CurrentValues.SetValues(entity);
+            _dbSet.Update(currentEntity);
+            return Task.FromResult(currentEntity);
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _dbContext.SaveChangesAsync();
+        }
+
+        public Task Update(T entity)
+        {
+            var currentEntity = _dbSet.Update(entity);
+            return Task.FromResult(currentEntity);
         }
     }
 }

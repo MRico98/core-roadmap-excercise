@@ -14,7 +14,7 @@ namespace TeamSpace.Domain.Repositories.Base
         Task<IReadOnlyList<TEntity>> ListAllAsync();
         Task<IReadOnlyList<TEntity>> ListAsync(ISpecification<TEntity> spec);
         Task<TEntity> AddAsync(TEntity entity);
-        Task UpdateAsync(TEntity entity);
+        Task Update(TEntity entity);
         Task DeleteAsync(TEntity entity);
         Task<TEntity> UpdateAsync(
             Guid id,
