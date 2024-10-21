@@ -15,6 +15,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<TeamSpaceDbContext>();
 builder.Services.AddScoped<INoteService, NoteService>();
+builder.Services.AddScoped<ISpaceService, SpaceService>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 var app = builder.Build();
