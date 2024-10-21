@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using TeamSpace.Application.DTOs;
 using TeamSpace.Application.Services.Base;
 using TeamSpace.Domain.Exceptions;
+using TeamSpace.Middleware.DTOs.Requests;
 
 namespace TeamSpace.Middleware.Controllers;
 
@@ -11,7 +13,7 @@ public class NotesController : ControllerBase
 {
     private readonly INoteService _noteService;
 
-    public NotesController(INoteService noteService)
+     public NotesController(INoteService noteService)
     {
         _noteService = noteService;
     }
@@ -19,11 +21,22 @@ public class NotesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetNotes()
     {
-        var notes = await _noteService.GetAllAsync();
-        return Ok(notes);
+        try
+        {
+            var notes = await _noteService.GetAllAsync();
+            return Ok(notes);
+        }
+        catch(SqlException ex)
+        {
+            return Problem(title: "Error related to the database", statusCode: 500, detail: ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return Problem(title: "mmmm... This should not have happened", statusCode: 500, detail: ex.Message);
+        }
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = "GetNoteById")]
     public async Task<IActionResult> GetNoteById(Guid id)
     {
         try
@@ -35,6 +48,10 @@ public class NotesController : ControllerBase
         {
             return NotFound(new { message = ex.Message });
         }
+        catch (SqlException ex)
+        {
+            return Problem(title: "Error related to the database", statusCode: 500, detail: ex.Message);
+        }
         catch (Exception ex)
         {
             return Problem(title: "mmmm... This should not have happened", statusCode: 500, detail: ex.Message);
@@ -42,15 +59,37 @@ public class NotesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateNote([FromBody] NoteDto noteDto)
+    public async Task<IActionResult> CreateNote([FromBody] NotePostRequest noteDto)
     {
-        var note = await _noteService.CreateAsync(noteDto);
-        return CreatedAtRoute("GetNoteById", new { id = note.Id }, note);
+        try
+        {
+            var note = new NoteDto
+            {
+                Title = noteDto.Title,
+                Content = noteDto.Content
+            };
+            var noteCreated = await _noteService.CreateAsync(note);
+            return CreatedAtRoute("GetNoteById", new { id = noteCreated.Id }, noteCreated);
+        }
+        catch (SqlException ex)
+        {
+            return Problem(title: "Error related to the database", statusCode: 500, detail: ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return Problem(title: "mmmm... This should not have happened", statusCode: 500, detail: ex.Message);
+        }
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateNote(Guid id, [FromBody] NoteDto noteDto)
+    public async Task<IActionResult> UpdateNote([FromBody] NotePutRequest noteRequest)
     {
+        var noteDto = new NoteDto
+        {
+            Id = noteRequest.Id,
+            Title = noteRequest.Title,
+            Content = noteRequest.Content
+        };
         var note = await _noteService.UpdateAsync(noteDto);
         return Ok(note);
     }

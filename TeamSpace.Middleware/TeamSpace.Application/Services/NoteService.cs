@@ -20,19 +20,49 @@ namespace TeamSpace.Application.Services
             this.repository = repository;
         }
 
-        public Task<NoteDto> CreateAsync(NoteDto noteDto)
+        public async Task<NoteDto> CreateAsync(NoteDto noteDto)
         {
-            throw new NotImplementedException();
+            Note noteDatabase = new Note
+            {
+                Id = Guid.NewGuid(),
+                Title = noteDto.Title,
+                Content = noteDto.Content,
+                SpaceId = new Guid("ccfff139-a86d-4001-96f5-bce00e707d01"),
+                CreatedBy = new Guid("5750bf75-9551-49e7-a5f6-1867bc2c4ce8")
+            };
+            var resultEntity = await repository.AddAsync(noteDatabase);
+            await repository.SaveChangesAsync();
+            NoteDto noteResult = new NoteDto
+            {
+                Id = resultEntity.Id,
+                Title = resultEntity.Title,
+                Content = resultEntity.Content
+            };
+            return noteResult;
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            await repository.DeleteAsync(id);
+            await repository.SaveChangesAsync();
+            return true;
         }
 
-        public Task<IEnumerable<NoteDto>> GetAllAsync()
+        public async Task<IEnumerable<NoteDto>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var notes = await repository.ListAllAsync();
+            var notesDto = new List<NoteDto>();
+            foreach (var note in notes)
+            {
+                var noteDto = new NoteDto
+                {
+                    Id = note.Id,
+                    Title = note.Title,
+                    Content = note.Content ?? string.Empty
+                };
+                notesDto.Add(noteDto);
+            }
+            return notesDto;
         }
 
         public async Task<NoteDto> GetByIdAsync(Guid id)
@@ -50,9 +80,17 @@ namespace TeamSpace.Application.Services
             return noteDto;
         }
 
-        public Task<NoteDto> UpdateAsync(NoteDto noteDto)
+        public async Task<NoteDto> UpdateAsync(NoteDto noteDto)
         {
-            throw new NotImplementedException();
+            var note = new Note
+            {
+                Id = noteDto.Id,
+                Title = noteDto.Title,
+                Content = noteDto.Content
+            };
+
+            var resultEntity = repository.UpdateAsync(note, note.Id);
+            return noteDto;
         }
     }
 }

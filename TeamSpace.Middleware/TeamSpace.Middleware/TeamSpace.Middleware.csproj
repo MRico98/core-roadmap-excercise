@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TeamSpace.Application\TeamSpace.Application.csproj" />
     <ProjectReference Include="..\TeamSpace.Infraestructure\TeamSpace.Infraestructure.csproj" />
+    <ProjectReference Include="..\TeamSpace.Application\TeamSpace.Application.csproj" />
   </ItemGroup>
 
 </Project>
