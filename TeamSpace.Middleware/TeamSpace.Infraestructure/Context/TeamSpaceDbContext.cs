@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TeamSpace.Domain.Entities;
 
 namespace TeamSpace.Infraestructure.Context;
 
-public partial class TeamSpaceDbContext : DbContext
+public partial class TeamSpaceDbContext : IdentityDbContext<IdentityUser>
 {
     public TeamSpaceDbContext()
     {
@@ -111,8 +113,6 @@ public partial class TeamSpaceDbContext : DbContext
                 .HasConstraintName("FK__Users__RoleId__398D8EEE");
         });
 
-        OnModelCreatingPartial(modelBuilder);
+        base.OnModelCreating(modelBuilder);
     }
-
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

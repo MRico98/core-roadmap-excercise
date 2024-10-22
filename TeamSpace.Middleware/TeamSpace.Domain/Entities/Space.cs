@@ -4,8 +4,14 @@ using TeamSpace.Domain.Entities.Base;
 
 namespace TeamSpace.Domain.Entities;
 
-public partial class Space : BaseEntity
+public partial class Space : IBaseEntity
 {
+    public Guid Id { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime? ModifiedAt { get; set; }
+
     public string Name { get; set; } = null!;
 
     public string? Description { get; set; }

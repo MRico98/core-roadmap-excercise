@@ -8,7 +8,7 @@ using TeamSpace.Domain.Specifications.Base;
 
 namespace TeamSpace.Domain.Repositories.Base
 {
-    public interface IRepository<TEntity> where TEntity : BaseEntity
+    public interface IRepository<TEntity> where TEntity : IBaseEntity
     {
         Task<TEntity> GetByIdAsync(Guid id);
         Task<IReadOnlyList<TEntity>> ListAllAsync();

@@ -11,7 +11,7 @@ using TeamSpace.Infraestructure.Context;
 
 namespace TeamSpace.Infraestructure.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T> : IRepository<T> where T : class, IBaseEntity
     {
         private readonly TeamSpaceDbContext _dbContext;
         private readonly DbSet<T> _dbSet;
