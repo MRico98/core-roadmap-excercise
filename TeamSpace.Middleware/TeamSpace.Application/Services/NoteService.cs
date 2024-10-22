@@ -89,7 +89,7 @@ namespace TeamSpace.Application.Services
                 Content = noteDto.Content
             };
 
-            var resultEntity = repository.UpdateAsync(note, note.Id);
+            var resultEntity = await repository.UpdateAsync(note, note.Id);
             return noteDto;
         }
     }

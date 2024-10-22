@@ -12,7 +12,7 @@ public partial class Note : IBaseEntity
 
     public DateTime? ModifiedAt { get; set; }
 
-    public string Title { get; set; } = null!;
+    public string? Title { get; set; } = null!;
 
     public string? Content { get; set; }
 

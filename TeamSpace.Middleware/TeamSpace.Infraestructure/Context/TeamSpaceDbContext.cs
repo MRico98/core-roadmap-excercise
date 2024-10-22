@@ -7,7 +7,7 @@ using TeamSpace.Domain.Entities;
 
 namespace TeamSpace.Infraestructure.Context;
 
-public partial class TeamSpaceDbContext : IdentityDbContext<IdentityUser>
+public partial class TeamSpaceDbContext : IdentityDbContext<User, Role, Guid>
 {
     public TeamSpaceDbContext()
     {
@@ -20,13 +20,9 @@ public partial class TeamSpaceDbContext : IdentityDbContext<IdentityUser>
 
     public virtual DbSet<Note> Notes { get; set; }
 
-    public virtual DbSet<Role> Roles { get; set; }
-
     public virtual DbSet<Space> Spaces { get; set; }
 
     public virtual DbSet<SpaceUserRelation> SpaceUserRelations { get; set; }
-
-    public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #pragma warning disable CS1030 // Directiva #warning

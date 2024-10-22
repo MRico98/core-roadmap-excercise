@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using TeamSpace.Application.DTOs;
 using TeamSpace.Application.Services.Base;
@@ -7,6 +8,7 @@ using TeamSpace.Middleware.DTOs.Requests;
 
 namespace TeamSpace.Middleware.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class NotesController : ControllerBase

@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using TeamSpace.Domain.Entities.Base;
 
 namespace TeamSpace.Domain.Entities;
 
-public partial class User : IBaseEntity
+public partial class User : IdentityUser<Guid>, IBaseEntity
 {
-    public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? ModifiedAt { get; set; }
 
