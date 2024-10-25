@@ -10,11 +10,7 @@ public partial class User : IdentityUser<Guid>, IBaseEntity
     public DateTime CreatedAt { get; set; }
     public DateTime? ModifiedAt { get; set; }
 
-    public string Username { get; set; } = null!;
-
-    public string Password { get; set; } = null!;
-
-    public Guid RoleId { get; set; }
+    public Guid? RoleId { get; set; }
 
     public virtual ICollection<Note> Notes { get; set; } = new List<Note>();
 

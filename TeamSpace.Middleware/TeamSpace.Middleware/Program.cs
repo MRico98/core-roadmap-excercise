@@ -52,6 +52,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<INoteService, NoteService>();
 builder.Services.AddScoped<ISpaceService, SpaceService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 

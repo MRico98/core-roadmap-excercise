@@ -1,0 +1,5 @@
+DROP DATABASE TeamSpace;
+GO
+
+CREATE DATABASE TeamSpace;
+GO
