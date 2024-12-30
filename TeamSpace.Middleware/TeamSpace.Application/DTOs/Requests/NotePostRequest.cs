@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TeamSpace.Middleware.DTOs.Requests;
+namespace TeamSpace.Application.DTOs.Requests;
 public class NotePostRequest
 {
     [Required(ErrorMessage = "Title is required")]

@@ -4,7 +4,7 @@ using Microsoft.Data.SqlClient;
 using TeamSpace.Application.DTOs;
 using TeamSpace.Application.Services.Base;
 using TeamSpace.Domain.Exceptions;
-using TeamSpace.Middleware.DTOs.Requests;
+using TeamSpace.Application.DTOs.Requests;
 
 namespace TeamSpace.Middleware.Controllers;
 

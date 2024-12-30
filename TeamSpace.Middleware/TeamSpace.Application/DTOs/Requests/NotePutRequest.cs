@@ -1,4 +1,4 @@
-﻿namespace TeamSpace.Middleware.DTOs.Requests
+﻿namespace TeamSpace.Application.DTOs.Requests
 {
     public class NotePutRequest
     {

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
       <PrivateAssets>all</PrivateAssets>
@@ -17,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TeamSpace.Infraestructure\TeamSpace.Infraestructure.csproj" />
     <ProjectReference Include="..\TeamSpace.Application\TeamSpace.Application.csproj" />
+    <ProjectReference Include="..\TeamSpace.Configuration\TeamSpace.Configuration.csproj" />
   </ItemGroup>
 
 </Project>

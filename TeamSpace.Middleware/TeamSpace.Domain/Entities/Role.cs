@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using TeamSpace.Domain.Entities.Base;
 
 namespace TeamSpace.Domain.Entities;
