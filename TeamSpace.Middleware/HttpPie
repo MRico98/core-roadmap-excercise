@@ -1,3 +1,8 @@
 http --verify=no POST https://localhost:7294/api/user Username='test' Email='email@test.com' Password='Bebabeba@989' PhoneNumber='999999' RoleId='65eb902b-74c2-4c33-a960-219cf8a32156'
 
 http --verify=no POST https://localhost:7294/api/user/login Username='test' Password='Bebabeba@989'
+
+http --verify=no GET https://localhost:7294/api/user/protected
+
+http GET http://localhost:5128/api/user/protected
+

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using TeamSpace.Application.DTOs.Responses;
 using TeamSpace.Application.Services.Base;
 using TeamSpace.Domain.Entities;
 
@@ -17,6 +18,33 @@ public class UserService(
 {
     private readonly UserManager<User> userManager = userManager;
     private readonly SignInManager<User> signInManager = signInManager;
+
+    public async Task<List<UserGetResponse>> GetUsers()
+    {
+        var users = await userManager.Users.ToListAsync();
+        return users.Select(u => new UserGetResponse
+        {
+            Id = u.Id,
+            Username = u.UserName,
+            Email = u.Email,
+            PhoneNumber = u.PhoneNumber,
+            CreatedAt = u.CreatedAt,
+        }).ToList();
+    }
+
+    public async Task<UserGetResponse> GetUser(Guid id)
+    {
+        var user = await userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+        if (user == null) return null;
+        return new UserGetResponse
+        {
+            Id = user.Id,
+            Username = user.UserName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            CreatedAt = user.CreatedAt,
+        };
+    }
 
     public async Task<bool> CreateUser(string username, string email, string password, string PhoneNumber, Guid roleId)
     {
@@ -32,6 +60,7 @@ public class UserService(
         var result = await userManager.CreateAsync(user, password);
         return true;
     }
+
 
     public async Task<string> LoginUser(string username, string password)
     {

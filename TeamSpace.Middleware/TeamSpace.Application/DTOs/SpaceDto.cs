@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TeamSpace.Application.DTOs;
+﻿namespace TeamSpace.Application.DTOs;
 public class SpaceDto
 {
     public Guid Id { get; set; }

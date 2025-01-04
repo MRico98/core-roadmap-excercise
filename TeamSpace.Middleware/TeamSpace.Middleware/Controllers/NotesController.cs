@@ -11,14 +11,9 @@ namespace TeamSpace.Middleware.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class NotesController : ControllerBase
+public class NotesController(INoteService noteService) : ControllerBase
 {
-    private readonly INoteService _noteService;
-
-     public NotesController(INoteService noteService)
-    {
-        _noteService = noteService;
-    }
+    private readonly INoteService _noteService = noteService;
 
     [HttpGet]
     public async Task<IActionResult> GetNotes()

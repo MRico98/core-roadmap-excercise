@@ -6,14 +6,9 @@ namespace TeamSpace.Middleware.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class SpacesController : ControllerBase 
+public class SpacesController(ISpaceService spaceService) : ControllerBase 
 {
-    private readonly ISpaceService _spaceService;
-
-    public SpacesController(ISpaceService spaceService)
-    {
-        _spaceService = spaceService;
-    }
+    private readonly ISpaceService _spaceService = spaceService;
 
     [HttpGet("{id}", Name = "GetSpacesByUserId")]
     public async Task<IActionResult> GetSpacesByUserId(Guid id)
