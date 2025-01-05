@@ -12,6 +12,7 @@ public class UserController(IUserService userService) : ControllerBase
     private readonly IUserService _userService = userService;
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetUsers()
     {
         var users = await _userService.GetUsers();
@@ -22,8 +23,8 @@ public class UserController(IUserService userService) : ControllerBase
         return Ok(users);
     }
 
-    /*
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetUser(Guid id)
     {
         var user = await _userService.GetUser(id);
@@ -33,11 +34,10 @@ public class UserController(IUserService userService) : ControllerBase
         }
         return Ok(user);
     }
-    */
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> Post([FromBody] UserPostRequest registerUserDto)
+    public async Task<IActionResult> PostUser([FromBody] UserPostRequest registerUserDto)
     {
         var result = await _userService.CreateUser(registerUserDto.Username, registerUserDto.Email, registerUserDto.Password, registerUserDto.PhoneNumber, registerUserDto.RoleId);
         if (result)

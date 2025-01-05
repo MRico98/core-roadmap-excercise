@@ -1,22 +1,31 @@
 ﻿using TeamSpace.Application.DTOs;
+using TeamSpace.Application.DTOs.Requests;
+using TeamSpace.Application.DTOs.Responses;
 using TeamSpace.Application.Services.Base;
 using TeamSpace.Domain.Entities;
 using TeamSpace.Domain.Repositories.Base;
 using TeamSpace.Domain.Specifications.Space;
 
 namespace TeamSpace.Application.Services;
-public class SpaceService : ISpaceService
+public class SpaceService(IRepository<Space> repository) : ISpaceService
 {
-    private readonly IRepository<Space> repository;
+    private readonly IRepository<Space> repository = repository;
 
-    public SpaceService(IRepository<Space> repository)
+    public async Task<SpacePostRequest> CreateAsync(SpacePostRequest spacePostRequest)
     {
-        this.repository = repository;
-    }
-
-    public Task<SpaceDto> CreateAsync(SpaceDto noteDto)
-    {
-        throw new NotImplementedException();
+        var space = new Space
+        {
+            Name = spacePostRequest.Name,
+            Description = spacePostRequest.Description,
+            Owner = spacePostRequest.Owner
+        };
+        var result = await repository.AddAsync(space);
+        return new SpacePostRequest
+        {
+            Name = result.Name,
+            Description = result.Description,
+            Owner = result.Owner
+        };
     }
 
     public Task<bool> DeleteAsync(Guid id)
@@ -24,14 +33,30 @@ public class SpaceService : ISpaceService
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<SpaceDto>> GetAllAsync()
+    public async Task<IEnumerable<SpaceGetResponse>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var spaces = await repository.ListAllAsync();
+        return spaces.Select(space => new SpaceGetResponse 
+        {
+            Id = space.Id,
+            CreatedAt = space.CreatedAt,
+            Name = space.Name,
+            Description = space.Description,
+            Owner = space.Owner
+        });
     }
 
-    public Task<SpaceDto> GetByIdAsync(Guid id)
+    public async Task<SpaceGetResponse> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var space = await repository.GetByIdAsync(id);
+        return new SpaceGetResponse
+        {
+            Id = space.Id,
+            CreatedAt = space.CreatedAt,
+            Name = space.Name,
+            Description = space.Description,
+            Owner = space.Owner
+        };
     }
 
     public Task<SpaceDto> UpdateAsync(SpaceDto noteDto)
@@ -39,10 +64,10 @@ public class SpaceService : ISpaceService
         throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<SpaceDto>> GetSpacesByUserId(Guid userId)
+    public async Task<IEnumerable<SpaceGetResponse>> GetSpacesByUserId(Guid userId)
     {
         var spaces = await repository.ListAsync(new SpaceByOwnerId<Space>(userId));
-        return spaces.Select(space => new SpaceDto
+        return spaces.Select(space => new SpaceGetResponse
         {
             Id = space.Id,
             Name = space.Name,

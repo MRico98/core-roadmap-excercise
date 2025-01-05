@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamSpace.Application.DTOs;
+using TeamSpace.Application.DTOs.Requests;
+using TeamSpace.Application.DTOs.Responses;
 using TeamSpace.Domain.Entities;
 
 namespace TeamSpace.Application.Services.Base;
     
 public interface ISpaceService    
 {
-    Task<IEnumerable<SpaceDto>> GetAllAsync();
-    Task<SpaceDto> GetByIdAsync(Guid id);
-    Task<SpaceDto> CreateAsync(SpaceDto noteDto);
-    Task<SpaceDto> UpdateAsync(SpaceDto noteDto);
+    Task<IEnumerable<SpaceGetResponse>> GetAllAsync();
+    Task<SpaceGetResponse> GetByIdAsync(Guid id);
+    Task<SpacePostRequest> CreateAsync(SpacePostRequest noteDto);
+    //Task<SpaceDto> UpdateAsync(SpacePostRequest noteDto);
     Task<bool> DeleteAsync(Guid id);
-    Task<IEnumerable<SpaceDto>> GetSpacesByUserId(Guid id);
+    Task<IEnumerable<SpaceGetResponse>> GetSpacesByUserId(Guid id);
 }

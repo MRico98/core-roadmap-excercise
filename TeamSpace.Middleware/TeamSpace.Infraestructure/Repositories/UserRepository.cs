@@ -4,6 +4,7 @@ using TeamSpace.Domain.Entities;
 using TeamSpace.Infraestructure.Context;
 using Microsoft.Extensions.Configuration;
 using TeamSpace.Infraestructure.Auth;
+using TeamSpace.Domain.Repositories.Base;
 
 namespace TeamSpace.Infraestructure.Repositories;
 
@@ -12,7 +13,7 @@ public class UserRepository(
     UserManager<User> userManager,
     SignInManager<User> signInManager,
     IJwtTokenGenerator jwtTokenGenerator,
-    IConfiguration configuration) : Repository<User>(dbContext)
+    IConfiguration configuration) : Repository<User>(dbContext), IUserRepository
 {
     private readonly UserManager<User> _userManager = userManager;
     private readonly SignInManager<User> _signInManager = signInManager;
