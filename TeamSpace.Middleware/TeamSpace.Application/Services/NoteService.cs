@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamSpace.Application.DTOs;
+using TeamSpace.Application.DTOs.Requests;
 using TeamSpace.Application.Services.Base;
 using TeamSpace.Domain.Entities;
 using TeamSpace.Domain.Exceptions;
 using TeamSpace.Domain.Repositories.Base;
+using TeamSpace.Domain.Specifications.Note;
 
 namespace TeamSpace.Application.Services
 {
@@ -20,7 +22,7 @@ namespace TeamSpace.Application.Services
             this.repository = repository;
         }
 
-        public async Task<NoteDto> CreateAsync(NoteDto noteDto)
+        public async Task<NoteDto> CreateAsync(NotePostRequest noteDto)
         {
             Note noteDatabase = new Note
             {
@@ -46,6 +48,23 @@ namespace TeamSpace.Application.Services
             await repository.DeleteAsync(id);
             await repository.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<IEnumerable<NoteDto>> GetBySpaceIdAsync(Guid spaceId)
+        {
+            var notes = await repository.ListAsync(new NoteBySpaceId(spaceId));
+            var notesDto = new List<NoteDto>();
+            foreach (var note in notes)
+            {
+                var noteDto = new NoteDto
+                {
+                    Id = note.Id,
+                    Title = note.Title,
+                    Content = note.Content ?? string.Empty
+                };
+                notesDto.Add(noteDto);
+            }
+            return notesDto;
         }
 
         public async Task<IEnumerable<NoteDto>> GetAllAsync()
@@ -77,19 +96,6 @@ namespace TeamSpace.Application.Services
                 Title = note.Title,
                 Content = note.Content?? string.Empty
             };
-            return noteDto;
-        }
-
-        public async Task<NoteDto> UpdateAsync(NoteDto noteDto)
-        {
-            var note = new Note
-            {
-                Id = noteDto.Id,
-                Title = noteDto.Title,
-                Content = noteDto.Content
-            };
-
-            var resultEntity = await repository.UpdateAsync(note, note.Id);
             return noteDto;
         }
     }

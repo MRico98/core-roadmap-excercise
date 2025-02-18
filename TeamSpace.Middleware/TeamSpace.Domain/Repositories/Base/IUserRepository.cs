@@ -6,7 +6,8 @@ namespace TeamSpace.Domain.Repositories.Base
     {
         Task<List<User>> GetUserListAsync();
         Task<User> GetUserByIdAsync(Guid id);
-        Task<User> CreateUserAsync(string username, string email, string password, string phoneNumber, Guid roleId);
+        Task<User> CreateUserAsync(User user);
+        Task<User> CreateUserAsync(string username, string email, string password, string phoneNumber, Guid? roleId);
         Task<string> LoginUserAsync(string username, string password);
     }
 }

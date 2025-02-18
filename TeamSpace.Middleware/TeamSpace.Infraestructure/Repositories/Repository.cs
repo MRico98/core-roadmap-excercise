@@ -59,6 +59,11 @@ public class Repository<T> : IRepository<T> where T : class, IBaseEntity
     {
         return await _dbSet.Where(spec.Criteria).ToListAsync();
     }
+    
+    public IQueryable<T> ListQueryable()
+    {
+        return _dbSet.AsQueryable();
+    }
 
     public Task<T> UpdateAsync(Guid id, T entity)
     {

@@ -5,6 +5,7 @@ using TeamSpace.Infraestructure.Context;
 using Microsoft.Extensions.Configuration;
 using TeamSpace.Infraestructure.Auth;
 using TeamSpace.Domain.Repositories.Base;
+using TeamSpace.Domain.Specifications.User;
 
 namespace TeamSpace.Infraestructure.Repositories;
 
@@ -30,7 +31,7 @@ public class UserRepository(
         return await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
     }
 
-    public async Task<User> CreateUserAsync(string username, string email, string password, string phoneNumber, Guid roleId)
+    public async Task<User> CreateUserAsync(string username, string email, string password, string phoneNumber, Guid? roleId)
     {
         var user = new User
         {
@@ -47,7 +48,7 @@ public class UserRepository(
 
     public async Task<string> LoginUserAsync(string username, string password)
     {
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == username);
+        var user = await _userManager.Users.FirstOrDefaultAsync(new UserByUsername(username).Criteria);
 
         if (user == null) throw new UnauthorizedAccessException("User not found");
 
@@ -56,6 +57,12 @@ public class UserRepository(
         if (!result.Succeeded) throw new UnauthorizedAccessException("Invalid password");
 
         var token = _jwtTokenGenerator.GenerateJwtToken(user.Id.ToString(), user.Email, user.UserName);
-        return string.Empty;
+        return token;
+    }
+
+    public async Task<User> CreateUserAsync(User user)
+    {
+        var result = await _userManager.CreateAsync(user);
+        return user;
     }
 }

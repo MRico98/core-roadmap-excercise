@@ -8,22 +8,25 @@ using TeamSpace.Application.DTOs.Requests;
 
 namespace TeamSpace.Middleware.Controllers;
 
-[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class NotesController(INoteService noteService) : ControllerBase
 {
     private readonly INoteService _noteService = noteService;
 
-    [HttpGet]
-    public async Task<IActionResult> GetNotes()
+    [HttpGet("{id}" , Name = "GetNoteById")]
+    [Authorize]
+    public async Task<IActionResult> GetNoteById(Guid id)
     {
         try
         {
-            var notes = await _noteService.GetAllAsync();
-            return Ok(notes);
+            var note = await _noteService.GetByIdAsync(id);
+
+            if (note == null) return NotFound();
+
+            return Ok(note);
         }
-        catch(SqlException ex)
+        catch (SqlException ex)
         {
             return Problem(title: "Error related to the database", statusCode: 500, detail: ex.Message);
         }
@@ -33,17 +36,17 @@ public class NotesController(INoteService noteService) : ControllerBase
         }
     }
 
-    [HttpGet("{id}", Name = "GetNoteById")]
-    public async Task<IActionResult> GetNoteById(Guid id)
+    [HttpGet("space/{spaceId}")]
+    [Authorize]
+    public async Task<IActionResult> GetNotesBySpaceId(Guid spaceId)
     {
         try
         {
-            var note = await _noteService.GetByIdAsync(id);
+            var note = await _noteService.GetByIdAsync(spaceId);
+
+            if (note == null) return NotFound();
+
             return Ok(note);
-        }
-        catch (NotFoundByIdException ex)
-        {
-            return NotFound(new { message = ex.Message });
         }
         catch (SqlException ex)
         {
@@ -60,12 +63,7 @@ public class NotesController(INoteService noteService) : ControllerBase
     {
         try
         {
-            var note = new NoteDto
-            {
-                Title = noteDto.Title,
-                Content = noteDto.Content
-            };
-            var noteCreated = await _noteService.CreateAsync(note);
+            var noteCreated = await _noteService.CreateAsync(noteDto);
             return CreatedAtRoute("GetNoteById", new { id = noteCreated.Id }, noteCreated);
         }
         catch (SqlException ex)
@@ -77,20 +75,7 @@ public class NotesController(INoteService noteService) : ControllerBase
             return Problem(title: "mmmm... This should not have happened", statusCode: 500, detail: ex.Message);
         }
     }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateNote([FromBody] NotePutRequest noteRequest)
-    {
-        var noteDto = new NoteDto
-        {
-            Id = noteRequest.Id,
-            Title = noteRequest.Title,
-            Content = noteRequest.Content
-        };
-        var note = await _noteService.UpdateAsync(noteDto);
-        return Ok(note);
-    }
-
+    
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteNote(Guid id)
     {

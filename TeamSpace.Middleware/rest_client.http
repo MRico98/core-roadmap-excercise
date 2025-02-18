@@ -1,0 +1,69 @@
+************
+CREATE USERS
+************
+
+POST http://localhost:5128/api/user
+Content-Type: application/json
+Accept: application/json
+
+{
+    "Username": "test",
+    "Email": "email@test.com",
+    "Password": "Bebabeba@989",
+    "PhoneNumber": "999999",
+    "RoleId": "aa99f920-3f3f-48f7-8320-0ebfe7658e34"
+}
+
+POST http://localhost:5128/api/user
+Content-Type: application/json
+Accept: application/json
+
+{
+    "Username": "otherTest",
+    "Email": "emailother@test.com",
+    "Password": "Bebabeba@989",
+    "PhoneNumber": "999998",
+    "RoleId": "aa99f920-3f3f-48f7-8320-0ebfe7658e34"
+}
+
+POST http://localhost:5128/api/user
+Content-Type: application/json
+Accept: application/json
+
+{
+    "Username": "noroleuser",
+    "Email": "norole@test.com",
+    "Password": "Bebabeba@989",
+    "PhoneNumber": "999997"
+}
+
+************
+LOGIN USERS
+************
+
+POST http://localhost:5128/api/user/login
+Content-Type: application/json
+Accept: application/json
+
+{
+    "Username": "test",
+    "Password": "Bebabeba@989"
+}
+
+POST http://localhost:5128/api/user/login
+Content-Type: application/json
+Accept: application/json
+
+{
+    "Username": "noroleuser",
+    "Password": "Bebabeba@989"
+}
+
+************
+RETRIEVE SPACES BY USER
+************
+
+GET http://localhost:5128/api/spaces?userId=57d783e9-b399-4b9a-814e-a45e71b4df53
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwN2FmMjhiYS02YzdkLTRhNWItOTkwNC1jYzdjYmE1ZDYzMjgiLCJlbWFpbCI6ImVtYWlsQHRlc3QuY29tIiwidW5pcXVlX25hbWUiOiJ0ZXN0IiwianRpIjoiZDZlOTc3MzctZDQ4Yy00YmM4LWExODItY2NjYjA0YjQzMjAzIiwiZXhwIjoxNzM5MDY3NTkxLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3Mjk0IiwiYXVkIjoiVGVhbVNwYWNlIn0.eIS0D-t2pOMNi9HWMqM9SCyh6YiA_X75QAN6ItOGc7k

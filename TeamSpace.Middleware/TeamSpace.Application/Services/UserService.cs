@@ -1,15 +1,12 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using TeamSpace.Application.DTOs.Responses;
+﻿using TeamSpace.Application.DTOs.Responses;
 using TeamSpace.Application.Services.Base;
-using TeamSpace.Domain.Entities;
 using TeamSpace.Domain.Exceptions;
 using TeamSpace.Domain.Repositories.Base;
+using TeamSpace.Application.Selectors;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using TeamSpace.Application.DTOs.Requests;
+using TeamSpace.Application.Selectos;
 
 namespace TeamSpace.Application.Services;
 
@@ -17,7 +14,7 @@ public class UserService(IUserRepository userRepository) : IUserService
 {
     private readonly IUserRepository _userRepository = userRepository;
 
-    public async Task<bool> CreateUser(string username, string email, string password, string PhoneNumber, Guid roleId)
+    public async Task<bool> CreateUser(string username, string email, string password, string PhoneNumber, Guid? roleId)
     {
         var result = await _userRepository.CreateUserAsync(username, email, password, PhoneNumber, roleId);
         return true;
@@ -25,15 +22,14 @@ public class UserService(IUserRepository userRepository) : IUserService
 
     public async Task<List<UserGetResponse>> GetUsers()
     {
-        var users = await _userRepository.GetUserListAsync();
-        return users.Select(u => new UserGetResponse
-        {
-            Id = u.Id,
-            Username = u.UserName,
-            Email = u.Email,
-            PhoneNumber = u.PhoneNumber,
-            CreatedAt = u.CreatedAt,
-        }).ToList();
+        var users = _userRepository.ListQueryable();
+        return await users.Select(new UserToUserGetResponse().BuildExpression()).ToListAsync();
+    }
+
+    public Task<string> LoginUser(UserLoginRequest userLoginRequest)
+    {
+        var result = _userRepository.LoginUserAsync(userLoginRequest.Username, userLoginRequest.Password);
+        return result;
     }
 
     public Task<string> LoginUser(string username, string password)
@@ -45,17 +41,16 @@ public class UserService(IUserRepository userRepository) : IUserService
     public async Task<UserGetResponse> GetUser(Guid id)
     {
         var user = await _userRepository.GetUserByIdAsync(id);
-        if (user == null)
-        {
-            throw new NotFoundByIdException(id);
-        }
-        return new UserGetResponse
-        {
-            Id = user.Id,
-            Username = user.UserName,
-            Email = user.Email,
-            PhoneNumber = user.PhoneNumber,
-            CreatedAt = user.CreatedAt,
-        };
+
+        if (user == null) throw new NotFoundByIdException(id);
+
+        return new UserToUserGetResponse().BuildExpression().Compile()(user);
+    }
+
+    public async Task<bool> CreateUser(UserPostRequest userPostRequest)
+    {
+        var user = new UserPostRequestToUser().BuildExpression().Compile()(userPostRequest);
+        var result = await _userRepository.CreateUserAsync(user);
+        return true;
     }
 }

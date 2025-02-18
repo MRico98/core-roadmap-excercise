@@ -1,6 +1,8 @@
-﻿using TeamSpace.Application.DTOs;
+﻿using System.Security.Claims;
+using TeamSpace.Application.DTOs;
 using TeamSpace.Application.DTOs.Requests;
 using TeamSpace.Application.DTOs.Responses;
+using TeamSpace.Application.Selectors;
 using TeamSpace.Application.Services.Base;
 using TeamSpace.Domain.Entities;
 using TeamSpace.Domain.Repositories.Base;
@@ -49,14 +51,8 @@ public class SpaceService(IRepository<Space> repository) : ISpaceService
     public async Task<SpaceGetResponse> GetByIdAsync(Guid id)
     {
         var space = await repository.GetByIdAsync(id);
-        return new SpaceGetResponse
-        {
-            Id = space.Id,
-            CreatedAt = space.CreatedAt,
-            Name = space.Name,
-            Description = space.Description,
-            Owner = space.Owner
-        };
+
+        return new SpaceToSpaceGetResponse().BuildExpression().Compile()(space);
     }
 
     public Task<SpaceDto> UpdateAsync(SpaceDto noteDto)
@@ -67,11 +63,14 @@ public class SpaceService(IRepository<Space> repository) : ISpaceService
     public async Task<IEnumerable<SpaceGetResponse>> GetSpacesByUserId(Guid userId)
     {
         var spaces = await repository.ListAsync(new SpaceByOwnerId<Space>(userId));
+        return spaces.Select(new SpaceToSpaceGetResponse().BuildExpression().Compile());
+        /*
         return spaces.Select(space => new SpaceGetResponse
         {
             Id = space.Id,
             Name = space.Name,
             Description = space.Description
         });
+        */
     }
 }

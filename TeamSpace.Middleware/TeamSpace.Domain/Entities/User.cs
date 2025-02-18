@@ -13,9 +13,9 @@ public partial class User : IdentityUser<Guid>, IBaseEntity
     public DateTime? ModifiedAt { get; set; }
 
     [ForeignKey("Role")]
-    public Guid RoleId { get; set; }
+    public Guid? RoleId { get; set; }
 
-    public virtual Role Role { get; set; } = null!;
+    public virtual Role? Role { get; set; } = null!;
 
     public virtual ICollection<Note> Notes { get; set; } = new List<Note>();
 
