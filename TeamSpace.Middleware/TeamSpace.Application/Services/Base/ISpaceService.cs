@@ -12,10 +12,8 @@ namespace TeamSpace.Application.Services.Base;
     
 public interface ISpaceService    
 {
-    Task<IEnumerable<SpaceGetResponse>> GetAllAsync();
-    Task<SpaceGetResponse> GetByIdAsync(Guid id);
+    Task<SpaceWithNoteDetailsGetResponse> GetByIdAsync(Guid id);
     Task<SpacePostRequest> CreateAsync(SpacePostRequest noteDto);
-    //Task<SpaceDto> UpdateAsync(SpacePostRequest noteDto);
     Task<bool> DeleteAsync(Guid id);
     Task<IEnumerable<SpaceGetResponse>> GetSpacesByUserId(Guid id);
 }

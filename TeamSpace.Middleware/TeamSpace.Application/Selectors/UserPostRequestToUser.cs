@@ -3,7 +3,7 @@ using TeamSpace.Application.DTOs.Requests;
 using TeamSpace.Application.Selectors.Base;
 using TeamSpace.Domain.Entities;
 
-namespace TeamSpace.Application.Selectos;
+namespace TeamSpace.Application.Selectors;
 
 internal sealed class UserPostRequestToUser : Selector<UserPostRequest, User>
 {

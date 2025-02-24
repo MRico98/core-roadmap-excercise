@@ -14,33 +14,15 @@ public class UserService(IUserRepository userRepository) : IUserService
 {
     private readonly IUserRepository _userRepository = userRepository;
 
-    public async Task<bool> CreateUser(string username, string email, string password, string PhoneNumber, Guid? roleId)
-    {
-        var result = await _userRepository.CreateUserAsync(username, email, password, PhoneNumber, roleId);
-        return true;
-    }
-
-    public async Task<List<UserGetResponse>> GetUsers()
-    {
-        var users = _userRepository.ListQueryable();
-        return await users.Select(new UserToUserGetResponse().BuildExpression()).ToListAsync();
-    }
-
     public Task<string> LoginUser(UserLoginRequest userLoginRequest)
     {
         var result = _userRepository.LoginUserAsync(userLoginRequest.Username, userLoginRequest.Password);
         return result;
     }
 
-    public Task<string> LoginUser(string username, string password)
-    {
-        var result = _userRepository.LoginUserAsync(username, password);
-        return result;
-    }
-
     public async Task<UserGetResponse> GetUser(Guid id)
     {
-        var user = await _userRepository.GetUserByIdAsync(id);
+        var user = await _userRepository.GetByIdAsync(id);
 
         if (user == null) throw new NotFoundByIdException(id);
 

@@ -35,42 +35,17 @@ public class SpaceService(IRepository<Space> repository) : ISpaceService
         throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<SpaceGetResponse>> GetAllAsync()
-    {
-        var spaces = await repository.ListAllAsync();
-        return spaces.Select(space => new SpaceGetResponse 
-        {
-            Id = space.Id,
-            CreatedAt = space.CreatedAt,
-            Name = space.Name,
-            Description = space.Description,
-            Owner = space.Owner
-        });
-    }
-
-    public async Task<SpaceGetResponse> GetByIdAsync(Guid id)
+    public async Task<SpaceWithNoteDetailsGetResponse> GetByIdAsync(Guid id)
     {
         var space = await repository.GetByIdAsync(id);
 
-        return new SpaceToSpaceGetResponse().BuildExpression().Compile()(space);
-    }
-
-    public Task<SpaceDto> UpdateAsync(SpaceDto noteDto)
-    {
-        throw new NotImplementedException();
+        return new SpaceToSpaceWithNoteDetailsGetResponse().BuildExpression().Compile()(space);
     }
 
     public async Task<IEnumerable<SpaceGetResponse>> GetSpacesByUserId(Guid userId)
     {
         var spaces = await repository.ListAsync(new SpaceByOwnerId<Space>(userId));
+
         return spaces.Select(new SpaceToSpaceGetResponse().BuildExpression().Compile());
-        /*
-        return spaces.Select(space => new SpaceGetResponse
-        {
-            Id = space.Id,
-            Name = space.Name,
-            Description = space.Description
-        });
-        */
     }
 }

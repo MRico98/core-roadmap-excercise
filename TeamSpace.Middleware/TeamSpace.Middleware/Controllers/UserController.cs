@@ -16,10 +16,9 @@ public class UserController(IUserService userService) : ControllerBase
     public async Task<IActionResult> GetUser(Guid id)
     {
         var user = await _userService.GetUser(id);
-        if (user == null)
-        {
-            return NotFound();
-        }
+
+        if (user == null) return NotFound();
+        
         return Ok(user);
     }
 

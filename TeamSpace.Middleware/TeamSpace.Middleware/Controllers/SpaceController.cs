@@ -9,25 +9,23 @@ namespace TeamSpace.Middleware.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class SpacesController(ISpaceService spaceService) : ControllerBase 
+public class SpacesController(ISpaceService spaceService) : ControllerBase
 {
     private readonly ISpaceService _spaceService = spaceService;
 
-    [HttpGet]
+    [HttpGet("by-user")]
     [Authorize]
-    public async Task<IActionResult> GetSpacesByUserId([FromQuery] Guid userId)
+    public async Task<IActionResult> GetSpacesByUserId()
     {
         try
         {
-            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            if (currentUserId == null || currentUserId != userId.ToString()) return Unauthorized("You are not authorized to access this resource");
-            
             var spaces = await _spaceService.GetSpacesByUserId(userId);
-            
+
             return Ok(spaces);
         }
-        catch(SqlException ex)
+        catch (SqlException ex)
         {
             return Problem(title: "Error related to the database", statusCode: 500, detail: ex.Message);
         }
@@ -41,7 +39,7 @@ public class SpacesController(ISpaceService spaceService) : ControllerBase
     [Authorize]
     public async Task<IActionResult> GetSpace(Guid id)
     {
-        try 
+        try
         {
             var space = await _spaceService.GetByIdAsync(id);
 
@@ -54,7 +52,7 @@ public class SpacesController(ISpaceService spaceService) : ControllerBase
 
             return Ok(space);
         }
-        catch(SqlException ex)
+        catch (SqlException ex)
         {
             return Problem(title: "Error related to the database", statusCode: 500, detail: ex.Message);
         }
@@ -68,7 +66,7 @@ public class SpacesController(ISpaceService spaceService) : ControllerBase
     [Authorize]
     public async Task<IActionResult> PostSpace([FromBody] SpacePostRequest space)
     {
-        try 
+        try
         {
             var result = await _spaceService.CreateAsync(space);
 
@@ -76,7 +74,7 @@ public class SpacesController(ISpaceService spaceService) : ControllerBase
 
             return Ok(result);
         }
-        catch(SqlException ex)
+        catch (SqlException ex)
         {
             return Problem(title: "Error related to the database", statusCode: 500, detail: ex.Message);
         }
