@@ -6,8 +6,6 @@ services:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=password123!
       - MSSQL_PID=Express
-    ports:
-      - "1433:1433"
     networks:
       - flyway-network
     healthcheck:
@@ -25,6 +23,23 @@ services:
     depends_on:
       sqlserver:
         condition: service_healthy
+    networks:
+      - flyway-network
+
+  api:
+    build:
+      context: TeamSpace.Middleware
+    container_name: api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=TeamSpace;User Id=sa;Password=password123!;Encrypt=False;TrustServerCertificate=True
+    ports:
+      - "8080:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      flyway:
+        condition: service_completed_successfully
     networks:
       - flyway-network
 
