@@ -11,6 +11,7 @@ using TeamSpace.Infraestructure.Repositories;
 using TeamSpace.Application.Services.Base;
 using TeamSpace.Application.Services;
 using TeamSpace.Infraestructure.Auth;
+using Microsoft.EntityFrameworkCore;
 
 namespace TeamSpace.Configuration;
 
@@ -18,8 +19,21 @@ public static class SeviceCollectionExtensions
 {
     public static IServiceCollection AddInfraestructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
+        Console.WriteLine($"🔍 Connection String: {connectionString}");
+        
         // Configuration of DbContext
-        services.AddDbContext<TeamSpaceDbContext>();
+        services.AddDbContext<TeamSpaceDbContext>(options =>
+        {
+            options.UseSqlServer(connectionString);
+        });
+        
         services.AddIdentity<User, Role>()
             .AddEntityFrameworkStores<TeamSpaceDbContext>()
             .AddDefaultTokenProviders();

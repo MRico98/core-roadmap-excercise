@@ -2,29 +2,20 @@
 CREATE USERS
 ************
 
-POST http://localhost:5128/api/user
+Docker config
+
+POST http://localhost:8080/api/user
 Content-Type: application/json
 Accept: application/json
 
 {
-    "Username": "test",
-    "Email": "email@test.com",
+    "Username": "noroleuser",
+    "Email": "norole@test.com",
     "Password": "Bebabeba@989",
-    "PhoneNumber": "999999",
-    "RoleId": "aa99f920-3f3f-48f7-8320-0ebfe7658e34"
+    "PhoneNumber": "999997"
 }
 
-POST http://localhost:5128/api/user
-Content-Type: application/json
-Accept: application/json
-
-{
-    "Username": "otherTest",
-    "Email": "emailother@test.com",
-    "Password": "Bebabeba@989",
-    "PhoneNumber": "999998",
-    "RoleId": "aa99f920-3f3f-48f7-8320-0ebfe7658e34"
-}
+Local config
 
 POST http://localhost:5128/api/user
 Content-Type: application/json
@@ -41,14 +32,18 @@ Accept: application/json
 LOGIN USERS
 ************
 
-POST http://localhost:5128/api/user/login
+Docker config
+
+POST http://localhost:8080/api/user/login
 Content-Type: application/json
 Accept: application/json
 
 {
-    "Username": "test",
+    "Username": "noroleuser",
     "Password": "Bebabeba@989"
 }
+
+Local config
 
 POST http://localhost:5128/api/user/login
 Content-Type: application/json

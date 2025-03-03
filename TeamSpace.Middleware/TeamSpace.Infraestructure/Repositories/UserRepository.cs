@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TeamSpace.Domain.Entities;
 using TeamSpace.Infraestructure.Context;
-using Microsoft.Extensions.Configuration;
 using TeamSpace.Infraestructure.Auth;
 using TeamSpace.Domain.Repositories.Base;
 using TeamSpace.Domain.Specifications.User;
@@ -33,9 +32,7 @@ public class UserRepository(
         return token;
     }
 
-    public async Task<User> CreateUserAsync(User user)
-    {
-        var result = await _userManager.CreateAsync(user);
-        return user;
-    }
+    public async Task<User?> GetUserByUsernameAsync(string username) => await _userManager.Users.Where(new UserByUsername(username).Criteria).FirstOrDefaultAsync();
+
+    public async Task<IdentityResult> CreateUserAsync(User user, string password) => await _userManager.CreateAsync(user, password);
 }

@@ -3,10 +3,7 @@ using TeamSpace.Application.Services.Base;
 using TeamSpace.Domain.Exceptions;
 using TeamSpace.Domain.Repositories.Base;
 using TeamSpace.Application.Selectors;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using TeamSpace.Application.DTOs.Requests;
-using TeamSpace.Application.Selectos;
 
 namespace TeamSpace.Application.Services;
 
@@ -31,8 +28,16 @@ public class UserService(IUserRepository userRepository) : IUserService
 
     public async Task<bool> CreateUser(UserPostRequest userPostRequest)
     {
+        var userByUsername = await _userRepository.GetUserByUsernameAsync(userPostRequest.Username);
+
+        if (userByUsername != null) throw new UserAlreadyExistsException(userPostRequest.Username);
+
         var user = new UserPostRequestToUser().BuildExpression().Compile()(userPostRequest);
-        var result = await _userRepository.CreateUserAsync(user);
+        
+        var creationResult = await _userRepository.CreateUserAsync(user, userPostRequest.Password);
+        
+        if (!creationResult.Succeeded) throw new UserCreationException(creationResult.Errors);
+
         return true;
     }
 }

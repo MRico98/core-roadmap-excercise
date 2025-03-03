@@ -1,11 +1,3 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using TeamSpace.Application.Services;
-using TeamSpace.Application.Services.Base;
-using TeamSpace.Domain.Repositories.Base;
-using TeamSpace.Domain.Entities;
 using TeamSpace.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
