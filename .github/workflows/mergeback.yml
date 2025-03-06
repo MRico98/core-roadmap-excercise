@@ -1,0 +1,39 @@
+name: Mergeback PR from master to dev
+
+on:
+  pull_request:
+    branches:
+        - master
+    types:
+        - closed
+
+permissions:
+    contents: read
+    pull-requests: write
+
+jobs:
+    create-mergeback-pr:
+        if: github.event.pull_request.merged == true
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v2
+              with:
+                ref: master
+                fetch-depth: 0
+
+            - name: Configure Git
+              run: |
+                git config --global user.name "github-actions[bot]"
+                git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+            - name: Create Pull Request from master to dev
+              uses: peter-evans/create-pull-request@v5
+              with:
+                token: ${{ secrets.GITHUB_TOKEN }}
+                base: dev
+                branch: master
+                title: "Mergeback: Sync master into dev"
+                body: "Mergeback PR."
+                labels: "mergeback"

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+PATTERN="^(feat|fix|docs|style|refactor|test|chore|Mergeback): .+"
+
+if [[ ! $COMMIT_MSG =~ $PATTERN ]]; then
+    echo "❌ ERROR: Commit message no valid."
+    echo "Please follow the next format: feat: message, fix: menssage, docs: menssage, styles: message, refactor: message, test: message, chore: message, mergeback: message."
+    exit 1
+fi
+
+echo "✅ Commit message valid."
+exit 0
