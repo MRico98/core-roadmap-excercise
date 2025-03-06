@@ -1,0 +1,13 @@
+#!/bin/bash
+
+branch_name=$(git rev-parse --abbrev-ref HEAD)
+
+regex="^(feat|fix|release|hotfix|mergeback)/.+"
+
+if [[ ! $branch_name =~ $regex ]]; then
+    echo "🚨 ERROR: The branch '$branch_name' does not follow the convention."
+    echo "📌 The branch should have the next nomenclature: feature/<ticket-id>, fix/<ticket-id>, release/<version>, hotfix/<ticket-id>, mergeback/<version>"
+    exit 1
+fi
+
+exit 0
