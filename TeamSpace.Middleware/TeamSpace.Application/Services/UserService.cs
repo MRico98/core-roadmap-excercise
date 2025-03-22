@@ -4,16 +4,28 @@ using TeamSpace.Domain.Exceptions;
 using TeamSpace.Domain.Repositories.Base;
 using TeamSpace.Application.Selectors;
 using TeamSpace.Application.DTOs.Requests;
+using TeamSpace.Application.Interfaces;
 
 namespace TeamSpace.Application.Services;
 
-public class UserService(IUserRepository userRepository) : IUserService
+public class UserService(
+    IUserRepository userRepository,
+    IJwtTokenGenerator jwtTokenGenerator) : IUserService
 {
     private readonly IUserRepository _userRepository = userRepository;
 
-    public Task<string> LoginUser(UserLoginRequest userLoginRequest)
+    public async Task<string> LoginUser(UserLoginRequest userLoginRequest)
     {
-        var result = _userRepository.LoginUserAsync(userLoginRequest.Username, userLoginRequest.Password);
+        var user = await _userRepository.GetUserByUsernameAsync(userLoginRequest.Username);
+
+        if (user == null) throw new UnauthorizedAccessException("User not found");
+
+        var signInResult = await _userRepository.SignInUserAsync(user, userLoginRequest.Password);
+        
+        if (!signInResult.Succeeded) throw new UnauthorizedAccessException("Invalid password");
+
+        var result = jwtTokenGenerator.GenerateJwtToken(user.Id.ToString(), user.Email!, user.UserName!);
+
         return result;
     }
 
@@ -38,6 +50,6 @@ public class UserService(IUserRepository userRepository) : IUserService
         
         if (!creationResult.Succeeded) throw new UserCreationException(creationResult.Errors);
 
-        return true;
+        return creationResult.Succeeded;
     }
 }

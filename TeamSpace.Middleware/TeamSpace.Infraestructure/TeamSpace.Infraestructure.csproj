@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TeamSpace.Domain\TeamSpace.Domain.csproj" />
+    <ProjectReference Include="..\TeamSpace.Application\TeamSpace.Application.csproj" />
   </ItemGroup>
 
 </Project>

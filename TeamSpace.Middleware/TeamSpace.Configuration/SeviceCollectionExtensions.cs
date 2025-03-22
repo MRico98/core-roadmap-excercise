@@ -12,6 +12,7 @@ using TeamSpace.Application.Services.Base;
 using TeamSpace.Application.Services;
 using TeamSpace.Infraestructure.Auth;
 using Microsoft.EntityFrameworkCore;
+using TeamSpace.Application.Interfaces;
 
 namespace TeamSpace.Configuration;
 
@@ -71,8 +72,8 @@ public static class SeviceCollectionExtensions
         services.AddScoped<ISpaceService, SpaceService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
         return services;
     }
