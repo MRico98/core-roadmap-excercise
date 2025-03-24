@@ -7,6 +7,7 @@ namespace TeamSpace.Domain.Repositories.Base
     {
         Task<IdentityResult> CreateUserAsync(User user, string password);
         Task<User?> GetUserByUsernameAsync(string username);
+        Task<User?> GetUserByEmailAsync(string email);
         Task<SignInResult> SignInUserAsync(User user, string password);
     }
 }

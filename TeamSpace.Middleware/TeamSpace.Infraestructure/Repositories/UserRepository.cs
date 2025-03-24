@@ -19,6 +19,8 @@ public class UserRepository(
     public async Task<SignInResult> SignInUserAsync(User user, string password) => await _signInManager.PasswordSignInAsync(user, password, false, false);
 
     public async Task<User?> GetUserByUsernameAsync(string username) => await _userManager.Users.Where(new UserByUsername(username).Criteria).FirstOrDefaultAsync();
+    
+    public async Task<User?> GetUserByEmailAsync(string email) => await _userManager.Users.Where(new UserByEmail(email).Criteria).FirstOrDefaultAsync();
 
     public async Task<IdentityResult> CreateUserAsync(User user, string password) => await _userManager.CreateAsync(user, password);
 }

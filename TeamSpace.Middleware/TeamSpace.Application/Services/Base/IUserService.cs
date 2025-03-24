@@ -5,7 +5,9 @@ using TeamSpace.Domain.Entities;
 namespace TeamSpace.Application.Services.Base;
 public interface IUserService
 {
-    Task<bool> CreateUser(UserPostRequest userPostRequest);
+    Task<UserPostResponse> CreateUser(UserPostRequest userPostRequest);
+    Task<UserGetResponse> GetLoggedUser();
     Task<string> LoginUser(UserLoginRequest userLoginRequest);
     Task<UserGetResponse> GetUser(Guid id);
+    Task<IEnumerable<UserGetResponse>> GetUsers();
 }

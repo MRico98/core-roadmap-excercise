@@ -5,6 +5,7 @@ using TeamSpace.Domain.Repositories.Base;
 using TeamSpace.Application.Selectors;
 using TeamSpace.Application.DTOs.Requests;
 using TeamSpace.Application.Interfaces;
+using System.Security.Claims;
 
 namespace TeamSpace.Application.Services;
 
@@ -13,6 +14,24 @@ public class UserService(
     IJwtTokenGenerator jwtTokenGenerator) : IUserService
 {
     private readonly IUserRepository _userRepository = userRepository;
+    
+    public async Task<UserGetResponse> GetLoggedUser()
+    {
+        var email = ClaimTypes.Email;
+
+        var user = await _userRepository.GetUserByEmailAsync(email);
+
+        if (user == null) throw new NotFoundByIdException(email);
+
+        return new UserToUserGetResponse().BuildExpression().Compile()(user);
+    }
+
+    public async Task<IEnumerable<UserGetResponse>> GetUsers()
+    {
+        var users = await _userRepository.ListAllAsync();
+
+        return users.Select(new UserToUserGetResponse().BuildExpression().Compile());
+    }
 
     public async Task<string> LoginUser(UserLoginRequest userLoginRequest)
     {
@@ -38,7 +57,7 @@ public class UserService(
         return new UserToUserGetResponse().BuildExpression().Compile()(user);
     }
 
-    public async Task<bool> CreateUser(UserPostRequest userPostRequest)
+    public async Task<UserPostResponse> CreateUser(UserPostRequest userPostRequest)
     {
         var userByUsername = await _userRepository.GetUserByUsernameAsync(userPostRequest.Username);
 
@@ -50,6 +69,6 @@ public class UserService(
         
         if (!creationResult.Succeeded) throw new UserCreationException(creationResult.Errors);
 
-        return creationResult.Succeeded;
+        return new UserPostResponse(user.Id);
     }
 }
