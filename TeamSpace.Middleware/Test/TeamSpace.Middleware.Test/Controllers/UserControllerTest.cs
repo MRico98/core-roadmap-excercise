@@ -23,6 +23,23 @@ public class UserControllerTest
     }
 
     [Fact]
+    public async Task GetLoggedUser_WhenSuccessful_ReturnsOkWithUserData()
+    {
+        // Arrange
+        var userGetResponse = specimenBuilders.Create<UserGetResponse>();
+        _userService.GetLoggedUser().Returns(userGetResponse);
+
+        // Act
+        var result = await _userController.GetLoggedUser();
+
+        // Assert
+        var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
+        okResult.Value.Should().Be(userGetResponse);
+
+        await _userService.Received(1).GetLoggedUser();
+    }
+
+    [Fact]
     public async Task GetUser_WhenUserExists_ReturnsOk()
     {
         // Arrange
@@ -43,14 +60,15 @@ public class UserControllerTest
     {
         // Arrange
         var userPostRequest = specimenBuilders.Create<UserPostRequest>();
-        _userService.CreateUser(userPostRequest).Returns(true);
+        var userPostResponse = specimenBuilders.Create<UserPostResponse>();
+        _userService.CreateUser(userPostRequest).Returns(userPostResponse);
 
         // Act
         var result = await _userController.PostUser(userPostRequest);
 
         // Assert
-        var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
-        okResult.Value.Should().Be(true);
+        var okResult = result.Should().BeOfType<CreatedAtActionResult>().Subject;
+        okResult.Value.Should().BeAssignableTo<UserPostResponse>();
     }
 
     [Fact]

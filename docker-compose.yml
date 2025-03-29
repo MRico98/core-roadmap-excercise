@@ -6,6 +6,8 @@ services:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=password123!
       - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
     networks:
       - flyway-network
     healthcheck:

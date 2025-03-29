@@ -55,6 +55,43 @@ Accept: application/json
 }
 
 ************
+GET ALL USERS
+************
+
+Docker config
+
+GET http://localhost:8080/api/user
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZDIzYzE2Mi0xZjBiLTQ4NDYtYWEzOS0wMDYxNjZiOTMzYWUiLCJlbWFpbCI6Im5vcm9sZUB0ZXN0LmNvbSIsInVuaXF1ZV9uYW1lIjoibm9yb2xldXNlciIsImp0aSI6ImIyODA3ZTIzLWEyYzYtNDc5My1iMjUwLWJmODcwZDg0MDlmMSIsImV4cCI6MTc0MjY5NjY3MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI5NCIsImF1ZCI6IlRlYW1TcGFjZSJ9.QUoADRrJikTGKOXwY2kR61APe0UGKxN_4ygSO7SEMxI
+
+Local config
+
+GET http://localhost:5128/api/user/3d23c162-1f0b-4846-aa39-006166b933aa
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZDIzYzE2Mi0xZjBiLTQ4NDYtYWEzOS0wMDYxNjZiOTMzYWUiLCJlbWFpbCI6Im5vcm9sZUB0ZXN0LmNvbSIsInVuaXF1ZV9uYW1lIjoibm9yb2xldXNlciIsImp0aSI6ImIyODA3ZTIzLWEyYzYtNDc5My1iMjUwLWJmODcwZDg0MDlmMSIsImV4cCI6MTc0MjY5NjY3MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI5NCIsImF1ZCI6IlRlYW1TcGFjZSJ9.QUoADRrJikTGKOXwY2kR61APe0UGKxN_4ygSO7SEMxI
+
+************
+GET USER BY ID
+************
+
+Docker config
+
+GET http://localhost:8080/api/user
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZDIzYzE2Mi0xZjBiLTQ4NDYtYWEzOS0wMDYxNjZiOTMzYWUiLCJlbWFpbCI6Im5vcm9sZUB0ZXN0LmNvbSIsInVuaXF1ZV9uYW1lIjoibm9yb2xldXNlciIsImp0aSI6ImIyODA3ZTIzLWEyYzYtNDc5My1iMjUwLWJmODcwZDg0MDlmMSIsImV4cCI6MTc0MjY5NjY3MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI5NCIsImF1ZCI6IlRlYW1TcGFjZSJ9.QUoADRrJikTGKOXwY2kR61APe0UGKxN_4ygSO7SEMxI
+
+Local config
+
+GET http://localhost:5128/api/user
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZDIzYzE2Mi0xZjBiLTQ4NDYtYWEzOS0wMDYxNjZiOTMzYWUiLCJlbWFpbCI6Im5vcm9sZUB0ZXN0LmNvbSIsInVuaXF1ZV9uYW1lIjoibm9yb2xldXNlciIsImp0aSI6ImIyODA3ZTIzLWEyYzYtNDc5My1iMjUwLWJmODcwZDg0MDlmMSIsImV4cCI6MTc0MjY5NjY3MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI5NCIsImF1ZCI6IlRlYW1TcGFjZSJ9.QUoADRrJikTGKOXwY2kR61APe0UGKxN_4ygSO7SEMxI
+
+
+************
 RETRIEVE SPACES BY USER
 ************
 

@@ -7,7 +7,7 @@ Just a mix of different tools from my core team. I am here just to learn about s
 * Asp.Net API
 * Docker (compose)
 * Specification pattern
-* Unit Test
+* Unit Test with Autofixture, NSubititute, FluentAssertion y Xunit
 * Flyway
 * React
 * Azure
