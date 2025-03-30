@@ -50,10 +50,8 @@ public class UserService(
 
     public async Task<UserGetResponse> GetUser(Guid id)
     {
-        var user = await _userRepository.GetByIdAsync(id);
-
-        if (user == null) throw new NotFoundByIdException(id);
-
+        var user = await _userRepository.GetByIdAsync(id) ?? throw new NotFoundByIdException(id);
+        
         return new UserToUserGetResponse().BuildExpression().Compile()(user);
     }
 

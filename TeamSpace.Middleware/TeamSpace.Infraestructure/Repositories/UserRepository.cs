@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TeamSpace.Domain.Entities;
 using TeamSpace.Infraestructure.Context;
-using TeamSpace.Infraestructure.Auth;
 using TeamSpace.Domain.Repositories.Base;
 using TeamSpace.Domain.Specifications.User;
 
